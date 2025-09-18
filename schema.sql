@@ -1,0 +1,14 @@
+CREATE DATABASE examDB;
+USE examDB;
+CREATE TABLE IF NOT EXISTS Products(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL,
+    price DECIMAL(12,2) NOT NULL CHECK(price > 0),
+    description VARCHAR(200) NOT NULL,
+    stock_quantity INT NOT NULL CHECK(stock_quantity >= 0),
+    weight DECIMAL(10,2) NOT NULL CHECK(weight > 0),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expiry_date DATETIME NULL,
+    brand VARCHAR(20) NOT NULL
+);

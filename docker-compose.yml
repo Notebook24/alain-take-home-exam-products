@@ -1,0 +1,29 @@
+services:
+  node-app:
+    build: .
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    env_file:
+      - .env
+
+  mysql-db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql-data:
