@@ -19,6 +19,18 @@ This API allows you to manage products using Dockerized Node.js and MySQL. This 
 - **Dependencies:** mysql2, express, supertest, jest (for testing)
 - **Containerization:** Docker, Docker Compose
 
+## Prerequisites
+
+- Docker and Docker Compose must be installed.
+- Make sure the following host ports are **free** on your machine before running the project:
+
+| Service      | Host Port | Container Port |
+|-------------|-----------|----------------|
+| Node App    | 3000      | 3000           |
+| MySQL DB    | 3307      | 3306           |
+
+**If any of these ports are already in use, either stop the process using them or change the host port in `docker-compose.yml`.**
+
 ## How to Run
 
 ### 0. Install Docker and Git
