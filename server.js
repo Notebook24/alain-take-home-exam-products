@@ -94,6 +94,20 @@ app.get("/", (req, res) => {
  */
 app.post("/products", (req,res) => {
     const {name, price, description, stock_quantity, weight, expiry_date, brand} = req.body;
+    const productFields = req.body;
+
+    //Check if invalid fields were included to create a product
+    const allowedFields = ["name", "price", "description", "stock_quantity", "weight", "brand", "created_at", "updated_at", "expiry_date"];
+    for (let field in req.body){
+        if (!allowedFields.includes(field)){
+            return res.status(400).json({error: `Unexpected field: ${field}`});
+        }
+    }
+
+    //Prevent the modification of system managed fields
+    if (productFields.created_at !== undefined || productFields.updated_at !== undefined ){
+        return res.status(400).json({error: "created_at and updated_at is automatically handled by the system"});
+    }
 
     //Assign created_at and updated_at fields to the current time
     const created_at = new Date();
@@ -180,6 +194,14 @@ app.put("/products/:id", (req,res) => {
     const productID = req.params.id;
     const productFields = req.body;
     let hasFields = false;
+
+    //Check if invalid fields were included to create a product
+    const allowedFields = ["name", "price", "description", "stock_quantity", "weight", "brand", "created_at", "updated_at", "expiry_date"];
+    for (let field in productFields){
+        if (!allowedFields.includes(field)){
+            return res.status(400).json({error: `Unexpected field: ${field}`});
+        }
+    }
 
     //Prevent the modification of system managed fields
     if (productFields.created_at !== undefined || productFields.updated_at !== undefined || productFields.expiry_date !== undefined){
