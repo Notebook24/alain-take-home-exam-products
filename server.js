@@ -98,7 +98,7 @@ app.post("/products", (req,res) => {
 
     //Check if invalid fields were included to create a product
     const allowedFields = ["name", "price", "description", "stock_quantity", "weight", "brand", "created_at", "updated_at", "expiry_date"];
-    for (let field in req.body){
+    for (let field in productFields){
         if (!allowedFields.includes(field)){
             return res.status(400).json({error: `Unexpected field: ${field}`});
         }
