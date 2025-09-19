@@ -97,8 +97,8 @@ docker-compose up -d
 
 ### 4. Example API Usage (curl)
 
-**Note:** curl syntax presented in this section are windows-specific.
-**Note:** Windows users may need to escape `&` in URLs with `^`. Mac/Linux users can use `&`.
+- **Note:** curl syntax presented in this section are windows-specific.
+- **Note:** Windows users may need to escape `&` in URLs with `^`. Mac/Linux users can use `&`.
 
 **These are the input rules for creating or updating a product:**
 - `id`: Primary key, auto-increment, automatically set (The system does not allow ID input)
@@ -123,11 +123,11 @@ curl -X POST http://localhost:3000/products -H "Content-Type: application/json" 
 **Note:** CREATE requires proper HTTP method, typing URL in browser won't create.
 
 **b. Get all products (pagination)**
-**For accessing Page 1, 10 products per page**
+- **For accessing Page 1, 10 products per page**
 ```bash
 curl "http://localhost:3000/products?page=1^&limit=10"
 ```
-**For accessing Page 2, 10 products per page**
+- **For accessing Page 2, 10 products per page**
 ```bash
 curl "http://localhost:3000/products?page=2^&limit=10"
 ```
