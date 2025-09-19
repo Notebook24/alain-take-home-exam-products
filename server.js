@@ -23,11 +23,11 @@ const port = process.env.PORT || 3000;   //Default server port (3000)
  * database: Database name to connect to in MySQL
  * charset: Sets the character encoding for MySQL connection, utf8mb4 supports all Unicode characters.
  */
- const db = mysql.createConnection({      
-    host: process.env.DB_HOST || "mysql-db",    
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD || "Choichoi22",
-    database: process.env.DB_NAME || "examDB",
+const db = mysql.createConnection({      
+    host: process.env.DB_HOST,    
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     charset: 'utf8mb4'
 });
 
@@ -126,7 +126,7 @@ app.post("/products", (req,res) => {
     db.query("INSERT INTO Products (name, price, description, stock_quantity, weight, created_at, updated_at, expiry_date, brand) VALUES (?,?,?,?,?,?,?,?,?)", 
         [name, price, description, stock_quantity, weight, created_at, updated_at, expiry_date, brand], (err, result) => {
         if (err){
-            return res.status(400).json({error: err});
+            return res.status(500).json({error: "Internal server error"});
         }
         res.status(201).json({product: {id: result.insertId, name, price, description, stock_quantity, weight, created_at, updated_at, expiry_date, brand}});
     });
@@ -142,11 +142,11 @@ app.get("/products", (req,res) => {
     const offset = (page - 1) * limit;              //Used to only fetch a list of products starting from a specified product
     db.query("SELECT * FROM Products LIMIT ? OFFSET ?", [limit, offset], (err, result) => {  //Only retrieve certain number of products
         if (err){
-            return res.status(500).json({error: err});
+            return res.status(500).json({error: "Internal server error"});
         }
         db.query("SELECT COUNT(*) AS total FROM Products", (err, countResult) => {  //Get total number of products for pagination info
             if (err){
-                return res.status(500).json({error: err});
+                return res.status(500).json({error: "Internal server error"});
             }
             const totalItems = countResult[0].total;           //Get the total number of products
             const totalPages = Math.ceil(totalItems / limit);  //Get the total pages
@@ -163,7 +163,7 @@ app.get("/products/:id", (req,res) => {
     const productID = req.params.id;
     db.query("SELECT * FROM Products WHERE id = ?", [productID], (err, result) => {  //Get the product with the ID in the request parameters
         if (err){
-            return res.status(500).json({error: err});
+            return res.status(500).json({error: "Internal server error"});
         }
         if (result.length === 0){
             return res.status(404).json({error: "Product not found"});
@@ -235,7 +235,7 @@ app.put("/products/:id", (req,res) => {
 
     db.query(`UPDATE Products SET ${setAttributes} WHERE id = ?`, values, (err, result) => {  //Update the product with the ID provided in request parameters
         if (err){
-            return res.status(500).json({error: err});
+            return res.status(500).json({error: "Internal server error"});
         }
 
         if (result.affectedRows === 0){
@@ -280,7 +280,7 @@ app.use((req, res) => {
 //Global handler for other errors
 app.use((err, req, res, next) => {
     const statusCode = err.status || 500;
-    res.status(statusCode).json({error: err.message});
+    res.status(statusCode).json({error: "Internal server error"});
 });
 
 //Export app and db for testing or external modules
