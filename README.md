@@ -90,6 +90,10 @@ docker ps
 mysql:8.0
 node-app (Express server)
 ```
+**In the case that one or both is missing, restart the app**
+```bash
+docker-compose up -d
+```
 
 ### 4. Example API Usage (curl)
 
