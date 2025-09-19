@@ -116,7 +116,7 @@ docker-compose up -d
 - **Note:** The user cannot update the `created_at`, `updated_at`, and `expiry_date` fields. These fields are automatically managed by the system and are usually uneditable in real-world scenarios to ensure product transparency.
 
 **a. Create a product**
-**Example: Creating a product**
+- **Example: Creating a product**
 ```bash
 curl -X POST http://localhost:3000/products -H "Content-Type: application/json" -d "{\"name\":\"Sample Product\",\"price\":99.99,\"description\":\"Test product\",\"stock_quantity\":10,\"weight\":1.5,\"expiry_date\":\"2025-12-31\",\"brand\":\"TestBrand\"}"
 ```
@@ -136,20 +136,20 @@ curl "http://localhost:3000/products?page=2^&limit=10"
 "http://localhost:3000/products?page=2^&limit=10"
 
 **c. Get product by ID**
-**Example: Getting the product with id of 1**
+- **Example: Getting the product with id of 1**
 ```bash
 curl http://localhost:3000/products/1
 ```
 
 **d. Update product**
-**Example: Updating the product with id of 1, to have a price of 120.50**
+- **Example: Updating the product with id of 1, to have a price of 120.50**
 ```bash
 curl -X PUT http://localhost:3000/products/1 -H "Content-Type: application/json" -d "{\"price\":120.50}"
 ```
 **Note:** UPDATE requires proper HTTP method, typing URL in browser won't update.
 
 **e. Delete product**
-**Example: Deleting the product with id of 1**
+- **Example: Deleting the product with id of 1**
 ```bash
 curl -X DELETE http://localhost:3000/products/1
 ```
