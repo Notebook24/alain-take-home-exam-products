@@ -1,29 +1,30 @@
 services:
   node-app:
-    build: .
+    build: .                  # Builds the image from the Dockerfile in the directory
     ports:
-      - "${PORT}:${PORT}"
+      - "${PORT}:${PORT}"     # Maps container port to host port using value from the .env file hidden by gitignore
     depends_on:
-      mysql-db:
-        condition: service_healthy
+      mysql-db:               # Ensures node-app waits for mysql-db before starting
+        condition: service_healthy      # Waits until mysql-db passes the healthcheck below
     env_file:
-      - .env
+      - .env                  # Loads environment variables from .env file
 
   mysql-db:
-    image: mysql:8.0
-    restart: always
+    image: mysql:8.0          # Uses the official MySQL 8.0 image
+    restart: always           # Ensures the container restarts automatically on failure
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}   # Root password for MySQL from the .env file
+      MYSQL_DATABASE: ${DB_NAME}            # Created a database with the name in the .env file
     ports:
-      - "3307:3306"
+      - "3307:3306"           # Maps host port 3307 to container port 3306 to avoid conflict with local MySQL
     volumes:
-      - mysql-data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - mysql-data:/var/lib/mysql        # Persists MySQL data in a named volume so that it is retained even when restarted
+    healthcheck:              # Defines healthcheck for MySQL readiness
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]    # Simple ping to check if MySQL is responsive
+      interval: 5s            # Run healthcheck every 5 seconds
+      timeout: 10s            # Fails if no response within 10 seconds
+      retries: 10             # Retry up to 10 times before marking unhealthy
+      start_period: 30s       # Wait 30s before starting healthcheck to give MySQL time to boot
 
 volumes:
-  mysql-data:
+  mysql-data:                 # Declares named volume for MySQL data persistence even when restarted
