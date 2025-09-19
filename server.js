@@ -195,7 +195,7 @@ app.put("/products/:id", (req,res) => {
     const productFields = req.body;
     let hasFields = false;
 
-    //Check if invalid fields were included to create a product
+    //Check if invalid fields were included to update a product
     const allowedFields = ["name", "price", "description", "stock_quantity", "weight", "brand", "created_at", "updated_at", "expiry_date"];
     for (let field in productFields){
         if (!allowedFields.includes(field)){
