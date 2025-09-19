@@ -1,3 +1,6 @@
+# All code was written manually by the developer.
+# Author: Alain Zuriel Z. Marcos
+
 services:
   node-app:
     build: .                  # Builds the image from the Dockerfile in the directory
