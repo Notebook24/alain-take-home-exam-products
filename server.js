@@ -261,7 +261,7 @@ app.delete("/products/:id", (req,res) => {
 
     db.query(`DELETE FROM Products WHERE id = ?`, [productID], (err, result) => {  //Delete the product with the ID provided in request parameters
         if (err){
-            return res.status(500).json({error: err});
+            return res.status(500).json({error: "Internal server error"});
         }
 
         if (result.affectedRows === 0){
